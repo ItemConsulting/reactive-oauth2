@@ -1,11 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'maven'
-//apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 group   = 'no.item.play'
 
 repositories {
@@ -15,13 +14,13 @@ repositories {
         url "http://repo.typesafe.com/typesafe/releases/"
     }
     maven {
-        url "http://nerdforge.com:8081/nexus/content/repositories/snapshots/"
+        url "http://repo.item.no/content/repositories/snapshots/"
     }
 }
 
 dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1'
-    compile group: 'com.typesafe.play', name: 'play-java-ws_2.11', version: '2.3.8'
+    compile group: 'com.typesafe.play', name: 'play-java-ws_2.11', version: '2.4.0'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
@@ -33,11 +32,40 @@ sourceSets {
     }
 }
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "http://nerdforge.com:8081/nexus/content/repositories/snapshots/"){
+            snapshotRepository(url: "http://repo.item.no/content/repositories/snapshots/"){
                 authentication(userName: mavenUser, password: mavenPassword)
+            }
+
+            pom.project {
+                name 'Reactive OAuth2'
+                packaging 'jar'
+                url 'https://github.com/ItemConsulting/reactive-oauth2'
+
+                developers {
+                    developer {
+                        id 'tomaj'
+                        name 'Tom Arild Jakobsen'
+                        email 'tom@item.no'
+                    }
+                }
             }
         }
     }

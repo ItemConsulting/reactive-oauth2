@@ -14,6 +14,7 @@ public class WSException extends RuntimeException {
     }
 
     public WSException(WSResponse response){
+        super(response.getBody());
         this.code = response.getStatus();
         this.message = response.getBody();
     }

@@ -8,7 +8,7 @@ public class SimpleRefreshTokenHolder implements RefreshTokenHolder {
 
     /**
      * Can be overwritten to keep seperate tokens for different users
-     * @param token
+     * @param token Token to persist
      */
     @Override
     public void persist(String token){
@@ -17,7 +17,7 @@ public class SimpleRefreshTokenHolder implements RefreshTokenHolder {
 
     /**
      * Can be overwritten to keep seperate tokens for different users
-     * @return
+     * @return Latest refresh token
      */
     @Override
     public String get() {
